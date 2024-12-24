@@ -1,0 +1,13 @@
+# Hold kubernetes from upgrading
+sudo apt-mark hold kubeadm kubelet kubectl
+
+# Upgrade node
+kubectl drain k8s-node-1 --ignore-daemonsets
+sudo apt update && sudo apt upgrade -y # Be careful about container runtime (e.g., docker) upgrade.
+
+# Reboot node if necessary
+sudo reboot
+
+# Make worker node reschedulable
+kubectl uncordon k8s-node-1
+
